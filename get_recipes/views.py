@@ -1,5 +1,18 @@
 from django.shortcuts import render
+from django.views.generic.edit import FormView
+
+from .forms import GetRecipesForm
 
 # Create your views here.
-def get_recipe(request):
-    return render(request, "get_recipes/get_recipes.html")
+class GetRecipesView(FormView):
+    form_class = GetRecipesForm
+    template_name = "get_recipes/get_recipes.html"
+    success_url = "/recipes_list"
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+
+def recipes_list(request):
+    return render(request, "get_recipes/recipes_list.html")
