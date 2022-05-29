@@ -10,7 +10,7 @@ class GetRecipesForm(forms.Form):
         max_length=200, 
         required=False
         )
-    recepies_number = forms.IntegerField(
+    recipes_number = forms.IntegerField(
         min_value=0, 
         max_value=5,
         required=True
