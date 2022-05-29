@@ -1,7 +1,7 @@
 from django import forms
 
 class GetRecipesForm(forms.Form):
-    ingredients_to_incluide = forms.CharField(
+    ingredients_to_include = forms.CharField(
         max_length=200,
         label="What ingredients do you want to incluide? Separate them with a comma and without spaces in between",
         required=True
