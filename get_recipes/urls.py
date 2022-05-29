@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path("", views.GetRecipesView.as_view()),
-    path("recipes_list", views.recipes_list)
-]
+    path("search/", views.search_recipes)
+    ]

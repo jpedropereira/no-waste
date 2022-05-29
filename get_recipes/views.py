@@ -14,5 +14,7 @@ class GetRecipesView(FormView):
         return super().form_valid(form)
 
 
-def recipes_list(request):
-    return render(request, "get_recipes/recipes_list.html")
+def search_recipes(request):
+    print(request)
+    context = {}
+    return render(request, "get_recipes/recipes_list.html", context=context)
