@@ -13,7 +13,6 @@ API_ENDPOINT = "https://api.spoonacular.com/recipes/complexSearch"
 
 
 #Create your views here.
-
 class GetRecipesView(FormView):
     form_class = GetRecipesForm
     template_name = "get_recipes/get_recipes.html"
@@ -50,11 +49,11 @@ def search_recipes(request):
     ingredients_to_exclude = query_dict["ingredients_to_exclude"]
     recipes_number = query_dict["recipes_number"]
 
-    recipes = get_spoontacular_data(ingredients_to_include, ingredients_to_exclude, recipes_number)
-    print(recipes)
+    recipes_data = get_spoontacular_data(ingredients_to_include, ingredients_to_exclude, recipes_number)
+    recipes_dict = recipes_data["results"]
 
     context = {
-        "recipes": recipes
+        "recipes": recipes_dict
     }
     return render(request, "get_recipes/recipes_list.html", context=context)
 

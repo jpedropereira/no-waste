@@ -3,6 +3,10 @@
 {% block title %}Your Recipes{% endblock title %}
 
 {% block content %}
-<h1>This works!</h1>
-{{recipes}}
+    <h1>Your Recipes!</h1>
+    <ul>
+        {% for recipe in recipes  %}
+            <li>{{ recipe.title }}</li>
+        {% endfor %}
+    </ul>
 {% endblock content %}
