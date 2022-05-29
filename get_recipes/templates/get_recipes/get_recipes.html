@@ -3,8 +3,10 @@
 {% block title %}Get Recipes{% endblock title %}
 
 {% block content %}
-    <form action="search/">
+<div class="search-form">
+    <form action="search/" method="GET">
         {{form}}
         <button>Send</button>
     </form>
+</div>
 {% endblock content %}

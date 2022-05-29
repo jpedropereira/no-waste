@@ -15,6 +15,6 @@ class GetRecipesView(FormView):
 
 
 def search_recipes(request):
-    print(request)
+    print(request.GET)
     context = {}
     return render(request, "get_recipes/recipes_list.html", context=context)
