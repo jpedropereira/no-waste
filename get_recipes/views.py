@@ -15,6 +15,14 @@ class GetRecipesView(FormView):
 
 
 def search_recipes(request):
-    print(request.GET)
-    context = {}
+    query_dict = request.GET
+    ingredients_to_include = query_dict["ingredients_to_include"]
+    ingredients_to_exclude = query_dict["ingredients_to_exclude"]
+    recipes_number = query_dict["recipes_number"]
+    print(ingredients_to_include)
+    context = {
+        "ingredients_to_include": ingredients_to_include,
+        "ingredients_to_exclude": ingredients_to_exclude,
+        "recipes_number": recipes_number,
+    }
     return render(request, "get_recipes/recipes_list.html", context=context)
