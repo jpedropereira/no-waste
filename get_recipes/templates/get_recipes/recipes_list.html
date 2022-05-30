@@ -9,4 +9,12 @@
             <li>{{ recipe.title }}</li>
         {% endfor %}
     </ul>
+    <br>
+    <br>
+    <h1>As suas receitas!</h1>
+    <ul>
+        {% for recipe in recipes_pt  %}
+            <li>{{ recipe }}</li>
+        {% endfor %}
+    </ul>
 {% endblock content %}

@@ -3,6 +3,7 @@ import requests
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 from dotenv import load_dotenv
+from pygoogletranslation import Translator
 
 from .forms import GetRecipesForm
 
@@ -38,12 +39,15 @@ def get_spoontacular_data(include, exclude, number):
     response.raise_for_status()
     recipes = response.json()
 
-    print(recipes)
-
     return recipes
 
+def translate_recipes(recipe):
+    translator = Translator()
+    translation = translator.translate(text=recipe, src="en", dest="pt")
+    return translation
 
-def search_recipes(request):
+
+def search_recipes_view(request):
     query_dict = request.GET
     ingredients_to_include = query_dict["ingredients_to_include"]
     ingredients_to_exclude = query_dict["ingredients_to_exclude"]
@@ -51,9 +55,16 @@ def search_recipes(request):
 
     recipes_data = get_spoontacular_data(ingredients_to_include, ingredients_to_exclude, recipes_number)
     recipes_dict = recipes_data["results"]
+    recipes_pt = []
+    for recipe in recipes_dict:
+        recipes_pt.append(translate_recipes(recipe["title"]).text)
+    
+    print(recipes_pt)
 
+    
     context = {
-        "recipes": recipes_dict
+        "recipes": recipes_dict,
+        "recipes_pt": recipes_pt
     }
     return render(request, "get_recipes/recipes_list.html", context=context)
 
