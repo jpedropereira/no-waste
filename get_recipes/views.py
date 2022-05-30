@@ -58,10 +58,7 @@ def search_recipes_view(request):
     recipes_pt = []
     for recipe in recipes_dict:
         recipes_pt.append(translate_recipes(recipe["title"]).text)
-    
-    print(recipes_pt)
-
-    
+        
     context = {
         "recipes": recipes_dict,
         "recipes_pt": recipes_pt
