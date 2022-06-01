@@ -55,12 +55,14 @@ def search_recipes_view(request):
 
     recipes_data = get_spoontacular_data(ingredients_to_include, ingredients_to_exclude, recipes_number)
     recipes_dict = recipes_data["results"]
-    recipes_pt = []
+    recipes_pt = {}
     for recipe in recipes_dict:
-        recipes_pt.append(translate_recipes(recipe["title"]).text)
+        recipes_pt[translate_recipes(recipe["title"]).text] = recipe["sourceUrl"]
+    
+    print(recipes_pt)
         
     context = {
-        "recipes": recipes_dict,
+        "recipes_en": recipes_dict,
         "recipes_pt": recipes_pt
     }
     return render(request, "get_recipes/recipes_list.html", context=context)

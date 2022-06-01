@@ -5,16 +5,16 @@
 {% block content %}
     <h1>Your Recipes!</h1>
     <ul>
-        {% for recipe in recipes  %}
-            <li>{{ recipe.title }}</li>
+        {% for recipe in recipes_en  %}
+           <li> <a href="{{ recipe.sourceUrl }}"> {{ recipe.title }} </a> </li>
         {% endfor %}
     </ul>
     <br>
     <br>
     <h1>As suas receitas!</h1>
     <ul>
-        {% for recipe in recipes_pt  %}
-            <li>{{ recipe }}</li>
+        {% for key, value in recipes_pt.items  %}
+            <li><a href="{{value}}"> {{ key }} </a></li>
         {% endfor %}
     </ul>
 {% endblock content %}
