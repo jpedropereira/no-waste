@@ -3,7 +3,43 @@
 {% block title %}Your Recipes{% endblock title %}
 
 {% block content %}
-    <h1>Your Recipes!</h1>
+
+<h1>Your Recipes!</h1>
+<br>
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Image</th>
+        <th>Ingredients</th>
+        <th>Missing Ingredients Count</th>
+        <th>%Carbs</th>
+        <th>%Proteins</th>
+        <th>%Fats</th>
+        <th>Calories</th>
+    </tr>
+    {% for recipe in recipes %}
+    <tr>
+        <td>{{recipe.title_en}}</td>
+        <td><img src="{{recipe.sourceurl}}" alt="{{recipe.title_en}}"></td>
+        <td>{{recipe.ingredients}}</td>
+        <td>{{recipe.missing_ingredients}}</td>
+        <td>{{recipe.carbs}}</td>
+        <td>{{recipe.proteins}}</td>
+        <td>{{recipe.fats}}</td>
+        <td>{{recipe.calories}}</td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+
+
+
+
+
+
+<!--    <h1>Your Recipes!</h1>
     <ul>
         {% for recipe in recipes_en  %}
            <li> <a href="{{ recipe.sourceUrl }}"> {{ recipe.title }} </a> </li>
@@ -16,5 +52,5 @@
         {% for key, value in recipes_pt.items  %}
             <li><a href="{{value}}"> {{ key }} </a></li>
         {% endfor %}
-    </ul>
+    </ul>          -->
 {% endblock content %}
