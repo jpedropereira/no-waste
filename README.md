@@ -6,6 +6,7 @@ Each recipe is displayed with its title, picture, list of ingredients already pr
 ## Requirements
 
 In order to be able to use this application, you need to have an API key for Spoontacular's API (you can obtain it [here](https://spoonacular.com/food-api/) ). You should then assign the API key to an environment variable named "SPOONTACULAR_API_KEY".
+The SECRET_KEY in the settings.py file should also be defined in an environment variable. 
 A requirements.txt file is provided with this project.
 
 ## How to run the application
