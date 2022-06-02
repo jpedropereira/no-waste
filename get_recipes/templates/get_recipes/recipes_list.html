@@ -32,7 +32,35 @@
     {% endfor %}
 
 </table>
+<br>
+<h1>As tuas receitas!</h1>
+<br>
+<table>
+    <tr>
+        <th>Titulo</th>
+        <th>Imagem</th>
+        <th>Ingredientes</th>
+        <th>Número de Ingredientes em Falta</th>
+        <th>%Hidratos de Carbono</th>
+        <th>%Proteinas</th>
+        <th>%Gorduras</th>
+        <th>Calorias</th>
+    </tr>
+    {% for recipe in recipes %}
+    <tr>
+        <td>{{recipe.title_pt}}</td>
+        <td><img src="{{recipe.picture}}" alt="{{recipe.title_pt}}"></td>
+        <td>{{recipe.ingredients_pt}}</td>
+        <td>{{recipe.missing_ingredients_count}}</td>
+        <td>{{recipe.carbs}}</td>
+        <td>{{recipe.proteins}}</td>
+        <td>{{recipe.fats}}</td>
+        <td>{{recipe.calories}}</td>
+    </tr>
 
+    {% endfor %}
+
+</table>
 
 
 

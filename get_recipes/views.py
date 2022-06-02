@@ -77,14 +77,17 @@ class Recipe:
 
 def search_recipes_view(request):
     """This function renders a list with the recipes resulting from the user query"""
+    #Gets query data
     query_dict = request.GET
     ingredients_to_include = query_dict["ingredients_to_include"]
     ingredients_to_exclude = query_dict["ingredients_to_exclude"]
     recipes_number = query_dict["recipes_number"]
-
+    
+    #Retrieves recipes data matching user's query from Spoontacular API
     recipes_data = get_spoontacular_data(ingredients_to_include, ingredients_to_exclude, recipes_number)
     recipes_dict = recipes_data["results"]
 
+    #Builds a list of Recipe objects using the data obtained from Spoontacular API
     recipes = [] 
 
     for recipe in recipes_dict:
@@ -102,7 +105,7 @@ def search_recipes_view(request):
         recipe_obj.get_translation()
         recipes.append(recipe_obj)
 
-        
+    #Renders page    
     context = {
         "recipes": recipes,
     }
