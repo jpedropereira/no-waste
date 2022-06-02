@@ -20,8 +20,8 @@
     {% for recipe in recipes %}
     <tr>
         <td>{{recipe.title_en}}</td>
-        <td><img src="{{recipe.sourceurl}}" alt="{{recipe.title_en}}"></td>
-        <td>{{recipe.ingredients}}</td>
+        <td><img src="{{recipe.picture}}" alt="{{recipe.title_en}}"></td>
+        <td>{{recipe.ingredients_en}}</td>
         <td>{{recipe.missing_ingredients}}</td>
         <td>{{recipe.carbs}}</td>
         <td>{{recipe.proteins}}</td>

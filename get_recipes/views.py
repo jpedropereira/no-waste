@@ -96,7 +96,7 @@ def search_recipes_view(request):
 
     for recipe in recipes_dict:
         title = recipe["title"]
-        image = recipe["image"]
+        picture = recipe["image"]
         ingredients = [ingredient["name"] for ingredient in recipe["nutrition"]["ingredients"]]
         missing_ingredients_count = recipe["missedIngredientCount"]
         carbs = recipe["nutrition"]["caloricBreakdown"]["percentCarbs"]
@@ -105,9 +105,8 @@ def search_recipes_view(request):
         calories = recipe["nutrition"]["nutrients"][0]["amount"]
         source_url = recipe["sourceUrl"]
 
-        recipe_obj = Recipe(title, image, ingredients, missing_ingredients_count, carbs, proteins, fats, calories, source_url)
+        recipe_obj = Recipe(title, picture, ingredients, missing_ingredients_count, carbs, proteins, fats, calories, source_url)
         recipe_obj.get_translation()
-        print(recipe_obj.ingredients_pt)
         recipes.append(recipe_obj)
 
         
