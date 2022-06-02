@@ -44,13 +44,6 @@ def get_spoontacular_data(include, exclude, number):
 
     return recipes
 
-def translate_recipes(recipe):
-    """This function translates text in English to Portuguese"""
-    translator = Translator()
-    translation = translator.translate(text=recipe, src="en", dest="pt")
-    return translation
-
-
 class Recipe:
     """This class represents recipes"""
     def __init__(self, title, picture, ingredients,
