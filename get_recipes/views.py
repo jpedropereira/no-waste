@@ -53,17 +53,32 @@ def translate_recipes(recipe):
 
 class Recipe:
     """This class represents recipes"""
-    def __init__(self, title, picture, ingredients, requested_ingredients, missing_ingredients, carbs, proteins, fats, calories, sourceurl):
+    def __init__(self, title, picture, ingredients,
+        missing_ingredients_count, carbs, proteins, fats, calories, sourceurl):
+
         self.title_en = title
+        self.title_pt = ""
         self.picture = picture
-        self.ingredients = ingredients
-        self.requested_ingredients = requested_ingredients.split(",")
-        self.missing_ingredients = missing_ingredients
+        self.ingredients_en = ingredients
+        self.ingredients_pt = []
+        self.missing_ingredients_count = missing_ingredients_count
         self.carbs = carbs
         self.proteins = proteins
         self.fats = fats
         self.calories = calories
         self.sourceurl = sourceurl
+
+    def translator(self, text):
+        """This method translates text in English to Portuguese"""
+        translator = Translator()
+        translation = translator.translate(text=text, src="en", dest="pt")
+        return translation
+    
+    def get_translation(self):
+        """Translates title and ingredients to Portuguese and assigns it to corresponding attribute"""
+        self.title_pt = self.translator(self.title_en).text
+        self.ingredients_pt = [self.translator(ingredient).text for ingredient in self.ingredients_en]
+
 
 
 
@@ -83,18 +98,18 @@ def search_recipes_view(request):
         title = recipe["title"]
         image = recipe["image"]
         ingredients = [ingredient["name"] for ingredient in recipe["nutrition"]["ingredients"]]
-        requested_ingredients = ingredients_to_include
-        missing_ingredients = recipe["missedIngredientCount"]
+        missing_ingredients_count = recipe["missedIngredientCount"]
         carbs = recipe["nutrition"]["caloricBreakdown"]["percentCarbs"]
         proteins = recipe["nutrition"]["caloricBreakdown"]["percentProtein"]
         fats = recipe["nutrition"]["caloricBreakdown"]["percentProtein"]
         calories = recipe["nutrition"]["nutrients"][0]["amount"]
         source_url = recipe["sourceUrl"]
 
-        recipe_obj = Recipe(title, image, ingredients, requested_ingredients, missing_ingredients, carbs, proteins, fats, calories, source_url)
+        recipe_obj = Recipe(title, image, ingredients, missing_ingredients_count, carbs, proteins, fats, calories, source_url)
+        recipe_obj.get_translation()
+        print(recipe_obj.ingredients_pt)
         recipes.append(recipe_obj)
 
-        print(recipe_obj.sourceurl)
         
     context = {
         "recipes": recipes,
