@@ -53,12 +53,12 @@ def translate_recipes(recipe):
 
 class Recipe:
     """This class represents recipes"""
-    def __init__(self, title, picture, ingredients, requested_ingredients, carbs, proteins, fats, calories, sourceurl):
+    def __init__(self, title, picture, ingredients, requested_ingredients, missing_ingredients, carbs, proteins, fats, calories, sourceurl):
         self.title_en = title
         self.picture = picture
         self.ingredients = ingredients
         self.requested_ingredients = requested_ingredients.split(",")
-        self.missing_ingredients = [ingredient for ingredient in self.requested_ingredients if ingredient not in self.ingredients]
+        self.missing_ingredients = missing_ingredients
         self.carbs = carbs
         self.proteins = proteins
         self.fats = fats
@@ -84,15 +84,17 @@ def search_recipes_view(request):
         image = recipe["image"]
         ingredients = [ingredient["name"] for ingredient in recipe["nutrition"]["ingredients"]]
         requested_ingredients = ingredients_to_include
+        missing_ingredients = recipe["missedIngredientCount"]
         carbs = recipe["nutrition"]["caloricBreakdown"]["percentCarbs"]
         proteins = recipe["nutrition"]["caloricBreakdown"]["percentProtein"]
         fats = recipe["nutrition"]["caloricBreakdown"]["percentProtein"]
         calories = recipe["nutrition"]["nutrients"][0]["amount"]
         source_url = recipe["sourceUrl"]
 
-
-        recipe_obj = Recipe(title, image, ingredients, requested_ingredients, carbs, proteins, fats, calories, source_url)
+        recipe_obj = Recipe(title, image, ingredients, requested_ingredients, missing_ingredients, carbs, proteins, fats, calories, source_url)
         recipes.append(recipe_obj)
+
+        print(recipe_obj.sourceurl)
         
     context = {
         "recipes": recipes,
