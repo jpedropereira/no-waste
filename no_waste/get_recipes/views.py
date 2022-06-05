@@ -1,17 +1,15 @@
-import os
 import requests
+
 from django.shortcuts import render
 from django.views.generic.edit import FormView
-from dotenv import load_dotenv
+from django.conf import settings
 from pygoogletranslation import Translator
+
 
 from .forms import GetRecipesForm
 
-load_dotenv()
-
-API_KEY = os.getenv("SPOONTACULAR_API_KEY")
-API_ENDPOINT = "https://api.spoonacular.com/recipes/complexSearch"
-
+API_ENDPOINT = settings.API_ENDPOINT
+SPOONTACULAR_API_KEY = settings.SPOONTACULAR_API_KEY
 
 #Create your views here.
 
@@ -28,8 +26,9 @@ class GetRecipesView(FormView):
 
 def get_spoontacular_data(include, exclude, number):
     """This function is used to collect recipe data from Spoontacular API"""
+    
     recipe_config = {
-        "apiKey": API_KEY,
+        "apiKey": SPOONTACULAR_API_KEY,
         "includeIngredients": include,
         "excludeIngredients": exclude,
         "instructionsRequired": True,
@@ -77,6 +76,7 @@ class Recipe:
 
 def search_recipes_view(request):
     """This function renders a list with the recipes resulting from the user query"""
+
     #Gets query data
     query_dict = request.GET
     ingredients_to_include = query_dict["ingredients_to_include"]
