@@ -97,7 +97,7 @@ def search_recipes_view(request):
         missing_ingredients_count = recipe["missedIngredientCount"]
         carbs = recipe["nutrition"]["caloricBreakdown"]["percentCarbs"]
         proteins = recipe["nutrition"]["caloricBreakdown"]["percentProtein"]
-        fats = recipe["nutrition"]["caloricBreakdown"]["percentProtein"]
+        fats = recipe["nutrition"]["caloricBreakdown"]["percentFat"]
         calories = recipe["nutrition"]["nutrients"][0]["amount"]
         source_url = recipe["sourceUrl"]
 
