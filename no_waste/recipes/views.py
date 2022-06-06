@@ -18,7 +18,7 @@ API_ENDPOINT = "https://api.spoonacular.com/recipes/complexSearch"
 class GetRecipesView(FormView):
     """This class renders the form generated to query recipes"""
     form_class = GetRecipesForm
-    template_name = "get_recipes/get_recipes.html"
+    template_name = "recipes/get_recipes.html"
     success_url = "/recipes_list"
 
     def form_valid(self, form):
@@ -109,5 +109,5 @@ def search_recipes_view(request):
     context = {
         "recipes": recipes,
     }
-    return render(request, "get_recipes/recipes_list.html", context=context)
+    return render(request, "recipes/recipes_list.html", context=context)
 
