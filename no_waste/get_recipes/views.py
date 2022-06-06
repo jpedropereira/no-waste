@@ -6,7 +6,7 @@ from django.conf import settings
 from pygoogletranslation import Translator
 
 
-from .forms import GetRecipesForm
+from get_recipes.forms import GetRecipesForm
 
 API_ENDPOINT = settings.API_ENDPOINT
 SPOONTACULAR_API_KEY = settings.SPOONTACULAR_API_KEY
