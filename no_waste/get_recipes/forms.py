@@ -17,3 +17,4 @@ class GetRecipesForm(forms.Form):
         label="How many recipes do you want to see? (From 1 to 5)",
         required=True
         )
+        

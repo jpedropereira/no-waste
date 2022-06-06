@@ -110,4 +110,3 @@ def search_recipes_view(request):
         "recipes": recipes,
     }
     return render(request, "get_recipes/recipes_list.html", context=context)
-
