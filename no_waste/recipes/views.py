@@ -6,7 +6,7 @@ from django.conf import settings
 from pygoogletranslation import Translator
 
 
-from get_recipes.forms import GetRecipesForm
+from recipes.forms import GetRecipesForm
 
 API_ENDPOINT = settings.API_ENDPOINT
 SPOONTACULAR_API_KEY = settings.SPOONTACULAR_API_KEY
@@ -16,7 +16,7 @@ SPOONTACULAR_API_KEY = settings.SPOONTACULAR_API_KEY
 class GetRecipesView(FormView):
     """This class renders the form generated to query recipes"""
     form_class = GetRecipesForm
-    template_name = "get_recipes/get_recipes.html"
+    template_name = "recipes/get_recipes.html"
     success_url = "/recipes_list"
 
     def form_valid(self, form):
@@ -97,7 +97,7 @@ def search_recipes_view(request):
         missing_ingredients_count = recipe["missedIngredientCount"]
         carbs = recipe["nutrition"]["caloricBreakdown"]["percentCarbs"]
         proteins = recipe["nutrition"]["caloricBreakdown"]["percentProtein"]
-        fats = recipe["nutrition"]["caloricBreakdown"]["percentProtein"]
+        fats = recipe["nutrition"]["caloricBreakdown"]["percentFat"]
         calories = recipe["nutrition"]["nutrients"][0]["amount"]
         source_url = recipe["sourceUrl"]
 
@@ -109,4 +109,4 @@ def search_recipes_view(request):
     context = {
         "recipes": recipes,
     }
-    return render(request, "get_recipes/recipes_list.html", context=context)
+    return render(request, "recipes/recipes_list.html", context=context)
