@@ -1,10 +1,9 @@
 from cgi import test
 from operator import mod
+from pyexpat import model
 from django.db import models
 
 # Create your models here.
-
-
 
 
 class Recipe(models.Model):
@@ -20,5 +19,11 @@ class Recipe(models.Model):
 class SearchQuery(models.Model):
     search_query = models.CharField(max_length=500)
     recipes = models.ManyToManyField(Recipe)
+
+class MissingIngredients(models.Model):
+    count = models.IntegerField()
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    search_query = models.ForeignKey(SearchQuery, on_delete=models.CASCADE)
+
 
     
