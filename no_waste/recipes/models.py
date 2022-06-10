@@ -14,7 +14,7 @@ class Recipe(models.Model):
     sourceurl = models.URLField(unique=True)
 
 class SearchQuery(models.Model):
-    search_query = models.CharField(max_length=500)
+    search_query = models.CharField(max_length=500, unique=True)
     recipes = models.ManyToManyField(Recipe)
 
 class MissingIngredients(models.Model):
