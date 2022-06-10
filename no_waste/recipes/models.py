@@ -11,13 +11,16 @@ class Recipe(models.Model):
     proteins = models.FloatField()
     fats = models.FloatField()
     calories = models.FloatField()
-    sourceurl = models.URLField(unique=True)
+    source_url = models.URLField(unique=True)
 
 class SearchQuery(models.Model):
     search_query = models.CharField(max_length=500, unique=True)
     recipes = models.ManyToManyField(Recipe)
 
-class MissingIngredients(models.Model):
+    class Meta:
+        verbose_name_plural = "Search queries"
+
+class MissingIngredient(models.Model):
     count = models.IntegerField()
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     search_query = models.ForeignKey(SearchQuery, on_delete=models.CASCADE)

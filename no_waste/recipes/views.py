@@ -7,6 +7,7 @@ from pygoogletranslation import Translator
 
 
 from recipes.forms import GetRecipesForm
+from recipes.models import Recipe, SearchQuery, MissingIngredient
 
 API_ENDPOINT = settings.API_ENDPOINT
 SPOONTACULAR_API_KEY = settings.SPOONTACULAR_API_KEY
@@ -43,52 +44,35 @@ def get_spoontacular_data(include, exclude, number):
 
     return recipes
 
-class Recipe:
-    """This class represents recipes"""
-    def __init__(self, title, picture, ingredients,
-        missing_ingredients_count, carbs, proteins, fats, calories, sourceurl):
-
-        self.title_en = title
-        self.title_pt = ""
-        self.picture = picture
-        self.ingredients_en = ingredients
-        self.ingredients_pt = []
-        self.missing_ingredients_count = missing_ingredients_count
-        self.carbs = carbs
-        self.proteins = proteins
-        self.fats = fats
-        self.calories = calories
-        self.sourceurl = sourceurl
-
-    def translator(self, text):
-        """This method translates text in English to Portuguese"""
-        translator = Translator()
-        translation = translator.translate(text=text, src="en", dest="pt")
-        return translation
-    
-    def get_translation(self):
-        """Translates title and ingredients to Portuguese and assigns it to corresponding attribute"""
-        self.title_pt = self.translator(self.title_en).text
-        self.ingredients_pt = [self.translator(ingredient).text for ingredient in self.ingredients_en]
-
-
-
 
 def search_recipes_view(request):
     """This function renders a list with the recipes resulting from the user query"""
 
-    #Gets query data
+    #Gets and normalizes query data
     query_dict = request.GET
     ingredients_to_include = query_dict["ingredients_to_include"]
+    ingredients_to_include = sorted(set(ingredients_to_include.split(",")))
+    ingredients_to_include = ",".join(ingredients_to_include)
+    
+    
     ingredients_to_exclude = query_dict["ingredients_to_exclude"]
+    ingredients_to_exclude = sorted(set(ingredients_to_exclude.split(",")))
+    ingredients_to_exclude = ",".join(ingredients_to_exclude)
+
     recipes_number = query_dict["recipes_number"]
+
+    search_query = f"incluide:{ingredients_to_include}|excluide:{ingredients_to_exclude}|count:{recipes_number}"
+
+    #adds search query to db
+    search = SearchQuery(search_query=search_query)
+    search.save()
+
+    
     
     #Retrieves recipes data matching user's query from Spoontacular API
     recipes_data = get_spoontacular_data(ingredients_to_include, ingredients_to_exclude, recipes_number)
     recipes_dict = recipes_data["results"]
 
-    #Builds a list of Recipe objects using the data obtained from Spoontacular API
-    recipes = [] 
 
     for recipe in recipes_dict:
         title = recipe["title"]
@@ -101,12 +85,30 @@ def search_recipes_view(request):
         calories = recipe["nutrition"]["nutrients"][0]["amount"]
         source_url = recipe["sourceUrl"]
 
-        recipe_obj = Recipe(title, picture, ingredients, missing_ingredients_count, carbs, proteins, fats, calories, source_url)
-        recipe_obj.get_translation()
-        recipes.append(recipe_obj)
+        #adds recipe to database
+        recipe_obj = Recipe(
+            title=title,
+            picture_url=picture,
+            ingredients=ingredients,
+            carbs=carbs,
+            proteins=proteins,
+            fats=fats,
+            calories=calories,
+            source_url=source_url
+            )
+        recipe_obj.save()
 
-    #Renders page    
-    context = {
-        "recipes": recipes,
-    }
-    return render(request, "recipes/recipes_list.html", context=context)
+        search.recipes.add(recipe_obj)
+
+        missing_count = MissingIngredient(count=missing_ingredients_count, recipe=recipe_obj, search_query=search)
+        missing_count.save()
+        
+
+
+
+
+    # #Renders page    
+    # context = {
+    #     "recipes": recipes,
+    # }
+    return render(request, "recipes/recipes_list.html") #context=context)
