@@ -62,8 +62,10 @@ def get_recipes(include, exclude, count, query):
     #Iterates through recipes dict to build Recipe and MissingIngredient objects
     for recipe in recipes_dict:
         title = recipe["title"]
+        title_pt = get_translation(title)
         picture = recipe["image"]
         ingredients = [ingredient["name"] for ingredient in recipe["nutrition"]["ingredients"]]
+        ingredients_pt = [get_translation(ingredient["name"]) for ingredient in recipe["nutrition"]["ingredients"]]
         missing_ingredients_count = recipe["missedIngredientCount"]
         carbs = recipe["nutrition"]["caloricBreakdown"]["percentCarbs"]
         proteins = recipe["nutrition"]["caloricBreakdown"]["percentProtein"]
@@ -74,8 +76,10 @@ def get_recipes(include, exclude, count, query):
         #adds recipe to database
         recipe_obj = Recipe(
             title=title,
+            title_pt=title_pt,
             picture_url=picture,
             ingredients=ingredients,
+            ingredients_pt=ingredients_pt,
             carbs=carbs,
             proteins=proteins,
             fats=fats,
