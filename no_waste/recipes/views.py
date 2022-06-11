@@ -1,3 +1,4 @@
+from xml.etree.ElementInclude import include
 import requests
 
 from django.shortcuts import render
@@ -18,7 +19,6 @@ class GetRecipesView(FormView):
     """This class renders the form generated to query recipes"""
     form_class = GetRecipesForm
     template_name = "recipes/get_recipes.html"
-    success_url = "/recipes_list"
 
     def form_valid(self, form):
         form.save()
@@ -45,35 +45,14 @@ def get_spoontacular_data(include, exclude, number):
     return recipes
 
 
-def search_recipes_view(request):
-    """This function renders a list with the recipes resulting from the user query"""
+def get_recipes(include, exclude, count, query):
+    """Builds Recipe and MissingIngredient objects based on a query and builds relationships with SearchQuery object"""
 
-    #Gets and normalizes query data
-    query_dict = request.GET
-    ingredients_to_include = query_dict["ingredients_to_include"]
-    ingredients_to_include = sorted(set(ingredients_to_include.split(",")))
-    ingredients_to_include = ",".join(ingredients_to_include)
-    
-    
-    ingredients_to_exclude = query_dict["ingredients_to_exclude"]
-    ingredients_to_exclude = sorted(set(ingredients_to_exclude.split(",")))
-    ingredients_to_exclude = ",".join(ingredients_to_exclude)
-
-    recipes_number = query_dict["recipes_number"]
-
-    search_query = f"incluide:{ingredients_to_include}|excluide:{ingredients_to_exclude}|count:{recipes_number}"
-
-    #adds search query to db
-    search = SearchQuery(search_query=search_query)
-    search.save()
-
-    
-    
     #Retrieves recipes data matching user's query from Spoontacular API
-    recipes_data = get_spoontacular_data(ingredients_to_include, ingredients_to_exclude, recipes_number)
+    recipes_data = get_spoontacular_data(include, exclude, count)
     recipes_dict = recipes_data["results"]
 
-
+    #Iterates through recipes dict to build Recipe and MissingIngredient objects
     for recipe in recipes_dict:
         title = recipe["title"]
         picture = recipe["image"]
@@ -98,17 +77,64 @@ def search_recipes_view(request):
             )
         recipe_obj.save()
 
-        search.recipes.add(recipe_obj)
+        query.recipes.add(recipe_obj)
 
-        missing_count = MissingIngredient(count=missing_ingredients_count, recipe=recipe_obj, search_query=search)
+        #builds MissingIngredient object
+        missing_count = MissingIngredient(count=missing_ingredients_count, recipe=recipe_obj, search_query=query)
         missing_count.save()
-        
+
+        return None
+
+def get_query(include, exclude, count):
+    """This function searches the database for a search query. 
+    If the related SearchQuery object exists in the db, it returns it. 
+    If it doesn't, it creates the SearchQuery object, it fetches data from spoontacular API, builds the recipe objects 
+    and missing count objects and builds the relationships
+    and then returns the SearchQuery object"""
+
+    search_expression = f"include:{include}|exclude:{exclude}|count:{count}"
+
+    try:
+        #tries to get query object
+        search = SearchQuery.objects.get(search_query=search_expression)
+
+    except:
+        #builds query object
+        search = SearchQuery(search_query=search_expression)
+        search.save()
+
+        get_recipes(include, exclude, count, search)
+
+
+    return search
 
 
 
 
+
+def search_recipes_view(request):
+    """This function renders a list with the recipes resulting from the user query"""
+
+    #Gets and normalizes query data
+    query_dict = request.GET
+    ingredients_to_include = query_dict["ingredients_to_include"]
+    ingredients_to_include = sorted(set(ingredients_to_include.split(",")))
+    ingredients_to_include = ",".join(ingredients_to_include)
+    
+    
+    ingredients_to_exclude = query_dict["ingredients_to_exclude"]
+    ingredients_to_exclude = sorted(set(ingredients_to_exclude.split(",")))
+    ingredients_to_exclude = ",".join(ingredients_to_exclude)
+
+    recipes_number = query_dict["recipes_number"]
+
+    query = get_query(include=ingredients_to_include, exclude=ingredients_to_exclude, count=recipes_number)
+
+    
     # #Renders page    
     # context = {
     #     "recipes": recipes,
-    # }
+    
     return render(request, "recipes/recipes_list.html") #context=context)
+
+
