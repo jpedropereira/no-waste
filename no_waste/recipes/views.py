@@ -47,7 +47,7 @@ def get_spoontacular_data(include, exclude, number):
 def get_translation(text):
     """This method translates English to Portuguese"""
     translator = Translator()
-    translation = translator.translate(text=text, src="en", dest="pt")
+    translation = translator.translate(text=text, src="en", dest="pt").text
 
     return translation
 
