@@ -44,6 +44,13 @@ def get_spoontacular_data(include, exclude, number):
 
     return recipes
 
+def get_translation(text):
+    """This method translates English to Portuguese"""
+    translator = Translator()
+    translation = translator.translate(text=text, src="en", dest="pt")
+
+    return translation
+
 
 def get_recipes(include, exclude, count, query):
     """Builds Recipe and MissingIngredient objects based on a query and builds relationships with SearchQuery object"""
@@ -107,9 +114,6 @@ def get_query(include, exclude, count):
 
 
     return search
-
-
-
 
 
 def search_recipes_view(request):
