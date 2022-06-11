@@ -5,8 +5,10 @@ from django.db import models
 
 class Recipe(models.Model):
     title = models.CharField(max_length=200)
+    title_pt = models.CharField(max_length=200)
     picture_url = models.URLField()
     ingredients = models.CharField(max_length=500)
+    ingredients_pt = models.CharField(max_length=500)
     carbs = models.FloatField()
     proteins = models.FloatField()
     fats = models.FloatField()
