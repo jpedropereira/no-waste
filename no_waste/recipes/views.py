@@ -139,6 +139,8 @@ def search_recipes_view(request):
     query = get_query(include=ingredients_to_include, exclude=ingredients_to_exclude, count=recipes_number)
 
     
+
+    
     # #Renders page    
     # context = {
     #     "recipes": recipes,
