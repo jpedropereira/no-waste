@@ -17,7 +17,7 @@ class Recipe(models.Model):
 
 class SearchQuery(models.Model):
     search_query = models.CharField(max_length=500, unique=True)
-    recipes = models.ManyToManyField(Recipe)
+    recipes = models.ManyToManyField(Recipe, related_name="recipes")
 
     class Meta:
         verbose_name_plural = "Search queries"
@@ -25,7 +25,7 @@ class SearchQuery(models.Model):
 class MissingIngredient(models.Model):
     count = models.IntegerField()
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    search_query = models.ForeignKey(SearchQuery, on_delete=models.CASCADE)
+    search_query = models.ForeignKey(SearchQuery, on_delete=models.CASCADE, related_name="query")
 
 
     
