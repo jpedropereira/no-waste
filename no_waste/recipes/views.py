@@ -73,22 +73,25 @@ def get_recipes(include, exclude, count, query):
         calories = recipe["nutrition"]["nutrients"][0]["amount"]
         source_url = recipe["sourceUrl"]
 
-        #adds recipe to database
-        recipe_obj = Recipe(
-            title=title,
-            title_pt=title_pt,
-            picture_url=picture,
-            ingredients=ingredients,
-            ingredients_pt=ingredients_pt,
-            carbs=carbs,
-            proteins=proteins,
-            fats=fats,
-            calories=calories,
-            source_url=source_url
-            )
-        recipe_obj.save()
-
-        query.recipes.add(recipe_obj)
+        #tries to find recipe in database and add it to query object. If not found in DB, it creates it and add it to query.
+        try:
+            recipe_obj = Recipe.objects.get(source_url=source_url)
+            query.recipes.add(recipe_obj)
+        except:
+            recipe_obj = Recipe(
+                title=title,
+                title_pt=title_pt,
+                picture_url=picture,
+                ingredients=ingredients,
+                ingredients_pt=ingredients_pt,
+                carbs=carbs,
+                proteins=proteins,
+                fats=fats,
+                calories=calories,
+                source_url=source_url
+                )
+            recipe_obj.save()
+            query.recipes.add(recipe_obj)
 
         #builds MissingIngredient object
         missing_count = MissingIngredient(count=missing_ingredients_count, recipe=recipe_obj, search_query=query)
@@ -140,12 +143,14 @@ def search_recipes_view(request):
     
     recipe_objects = Recipe.objects.filter(recipes=query_object)
 
-    missing_ingredients_objects = [MissingIngredient.objects.filter(recipe=recipe_object) for recipe_object in recipe_objects]
+
     
-    # #Renders page    
-    # context = {
-    #     "recipes": recipes,
+
+    #Renders page    
+    context = {
+        "recipes": recipe_objects,
+    }
     
-    return render(request, "recipes/recipes_list.html") #context=context)
+    return render(request, "recipes/recipes_list.html", context=context)
 
 
