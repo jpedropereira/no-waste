@@ -23,7 +23,7 @@ class SearchQuery(models.Model):
         verbose_name_plural = "Search queries"
 
 class MissingIngredient(models.Model):
-    count = models.IntegerField()
+    missing_ingredient_count = models.IntegerField()
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="recipe")
     search_query = models.ForeignKey(SearchQuery, on_delete=models.CASCADE, related_name="query")
 

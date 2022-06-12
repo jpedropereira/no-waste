@@ -141,14 +141,12 @@ def search_recipes_view(request):
 
     query_object = get_query(include=ingredients_to_include, exclude=ingredients_to_exclude, count=recipes_number)
     
-    recipe_objects = Recipe.objects.filter(recipes=query_object)
+    missing_ingredient_objects = MissingIngredient.objects.filter(search_query=query_object)
 
-
-    
 
     #Renders page    
     context = {
-        "recipes": recipe_objects,
+        "recipes": missing_ingredient_objects,
     }
     
     return render(request, "recipes/recipes_list.html", context=context)
