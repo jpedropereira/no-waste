@@ -137,8 +137,10 @@ def search_recipes_view(request):
     recipes_number = query_dict["recipes_number"]
 
     query_object = get_query(include=ingredients_to_include, exclude=ingredients_to_exclude, count=recipes_number)
+    
+    recipe_objects = Recipe.objects.filter(recipes=query_object)
 
-
+    missing_ingredients_objects = [MissingIngredient.objects.filter(recipe=recipe_object) for recipe_object in recipe_objects]
     
     # #Renders page    
     # context = {
