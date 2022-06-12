@@ -1,4 +1,4 @@
-from xml.etree.ElementInclude import include
+from regex import P
 import requests
 
 from django.shortcuts import render
@@ -94,7 +94,7 @@ def get_recipes(include, exclude, count, query):
         missing_count = MissingIngredient(count=missing_ingredients_count, recipe=recipe_obj, search_query=query)
         missing_count.save()
 
-        return None
+    return None
 
 def get_query(include, exclude, count):
     """This function searches the database for a search query. 
@@ -136,9 +136,8 @@ def search_recipes_view(request):
 
     recipes_number = query_dict["recipes_number"]
 
-    query = get_query(include=ingredients_to_include, exclude=ingredients_to_exclude, count=recipes_number)
+    query_object = get_query(include=ingredients_to_include, exclude=ingredients_to_exclude, count=recipes_number)
 
-    
 
     
     # #Renders page    
