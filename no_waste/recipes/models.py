@@ -24,7 +24,7 @@ class SearchQuery(models.Model):
 
 class MissingIngredient(models.Model):
     count = models.IntegerField()
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="recipe")
     search_query = models.ForeignKey(SearchQuery, on_delete=models.CASCADE, related_name="query")
 
 
