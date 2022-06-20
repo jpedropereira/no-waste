@@ -66,7 +66,7 @@ def get_recipes(include, exclude, count, query):
         picture = recipe["image"]
         ingredients = [ingredient["name"] for ingredient in recipe["nutrition"]["ingredients"]]
         ingredients_pt = [get_translation(ingredient["name"]) for ingredient in recipe["nutrition"]["ingredients"]]
-        missing_ingredients_count = recipe["missedIngredientCount"]
+        missing_ingredient_count = recipe["missedIngredientCount"]
         carbs = recipe["nutrition"]["caloricBreakdown"]["percentCarbs"]
         proteins = recipe["nutrition"]["caloricBreakdown"]["percentProtein"]
         fats = recipe["nutrition"]["caloricBreakdown"]["percentFat"]
@@ -94,7 +94,7 @@ def get_recipes(include, exclude, count, query):
             query.recipes.add(recipe_obj)
 
         #builds MissingIngredient object
-        missing_count = MissingIngredient(count=missing_ingredients_count, recipe=recipe_obj, search_query=query)
+        missing_count = MissingIngredient(missing_ingredient_count=missing_ingredient_count, recipe=recipe_obj, search_query=query)
         missing_count.save()
 
     return None

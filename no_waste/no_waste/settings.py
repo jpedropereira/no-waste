@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'no_waste.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'no_waste',
+        'USER': os.getenv("POSTGRES_USER"),
+        'PASSWORD': os.getenv("POSTGRES_PASS"),
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
