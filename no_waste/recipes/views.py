@@ -77,7 +77,7 @@ def get_recipes(include, exclude, count, query):
         try:
             recipe_obj = Recipe.objects.get(source_url=source_url)
             query.recipes.add(recipe_obj)
-        except:
+        except Recipe.DoesNotExist:
             recipe_obj = Recipe(
                 title=title,
                 title_pt=title_pt,
@@ -112,7 +112,7 @@ def get_query(include, exclude, count):
         #tries to get query object
         search = SearchQuery.objects.get(search_query=search_expression)
 
-    except:
+    except SearchQuery.DoesNotExist:
         #builds query object
         search = SearchQuery(search_query=search_expression)
         search.save()
