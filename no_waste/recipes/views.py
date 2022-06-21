@@ -1,4 +1,3 @@
-from regex import P
 import requests
 
 from django.shortcuts import render
