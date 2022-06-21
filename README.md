@@ -5,7 +5,7 @@ Each recipe is displayed with its title, picture, list of ingredients already pr
 
 ## How do does it work
 
-Each time a user requests a query, the application searches for it in the database. If this query exists in the database, the application displays the recipes associated with it. If the query doesn't exist, the application sends a call to Spoonacular's api in order to obtain the related data, adds the query and recipes to the database and displays the recipes to the user. This approach allows us to minimize the number of api calls.  
+Each time a user requests a meal, the application searches for it in the database. If this query exists in the database, the application displays the recipes associated with it. If the query doesn't exist, the application sends a call to Spoonacular's api in order to obtain the related data, adds the query and recipes to the database and displays the recipes to the user. This approach allows us to minimize the number of api calls.  
 
 ## Requirements
 
