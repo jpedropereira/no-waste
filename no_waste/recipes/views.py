@@ -99,7 +99,7 @@ def get_recipes(include, exclude, count, query):
 
     return None
 
-def get_query(include, exclude, count):
+def get_search_query(include, exclude, count):
     """This function searches the database for a search query. 
     If the related SearchQuery object exists in the db, it returns it. 
     If it doesn't, it creates the SearchQuery object, it fetches data from spoontacular API, builds the recipe objects 
@@ -139,7 +139,7 @@ def search_recipes_view(request):
 
     recipes_number = query_dict["recipes_number"]
 
-    query_object = get_query(include=ingredients_to_include, exclude=ingredients_to_exclude, count=recipes_number)
+    query_object = get_search_query(include=ingredients_to_include, exclude=ingredients_to_exclude, count=recipes_number)
     
     missing_ingredient_objects = MissingIngredient.objects.filter(search_query=query_object)
 
