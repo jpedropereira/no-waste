@@ -12,19 +12,20 @@ Each time a user requests a meal, the application searches for it in the databas
 In order to be able to use this application, you need to have an API key for Spoontacular's API (you can obtain it [here](https://spoonacular.com/food-api/) ). You should then assign the API key to an environment variable named "SPOONTACULAR_API_KEY".
 The SECRET_KEY in the settings.py file should also be defined in an environment variable. 
 A requirements.txt file is provided with this project.
-You also need to have PostregeSQL installed in your machine. You should create a database to work with this application. In settings.py, you should configure the DATABASES settings with the name of your database, username, password, host, and port number. The username and password should be assigned to environment variables named POSTGRES_USER and POSTGRES_PASS respectively, while the rest can be added directly to the settings. 
+You also need to have PostregeSQL installed in your machine. You should create a database to work with this application. In settings.py, you should configure the DATABASES settings with the name of your database, username, password, host, and port number. These should be assigned to environmental variables named POSTGRESQL_DB_NAME, POSTGRESQL_USER, POSTGRESQL_PASS, POSTGRESQL_HOST, and POSTGRESQL_PORT respectively.
 
 
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'your_database_name,
-            'USER': os.getenv("POSTGRES_USER"),
-            'PASSWORD': os.getenv("POSTGRES_PASS"),
-            'HOST': 'localhost',
-            'PORT': '5432',
+            'NAME': os.getenv("POSTGRESQL_DB_NAME"),
+            'USER': os.getenv("POSTGRESQL_USER"),
+            'PASSWORD': os.getenv("POSTGRESQL_PASS"),
+            'HOST': os.getenv("POSTGRESQL_HOST"),
+            'PORT': os.getenv("POSTGRESQL_PORT"),
         }
     }
+
 
 You should have Python 3.10.4 or higher to run this application. A requirements.txt with all the required packages and versions.
 

@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'no_waste.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'no_waste',
-        'USER': os.getenv("POSTGRES_USER"),
-        'PASSWORD': os.getenv("POSTGRES_PASS"),
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv("POSTGRESQL_DB_NAME"),
+        'USER': os.getenv("POSTGRESQL_USER"),
+        'PASSWORD': os.getenv("POSTGRESQL_PASS"),
+        'HOST': os.getenv("POSTGRESQL_HOST"),
+        'PORT': os.getenv("POSTGRESQL_PORT"),
     }
 }
 
