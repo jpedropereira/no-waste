@@ -7,7 +7,7 @@ from pygoogletranslation import Translator
 
 
 from recipes.forms import GetRecipesForm
-from recipes.models import Recipe, SearchQuery, MissingIngredient
+from recipes.models import Recipe, SearchQuery
 
 API_ENDPOINT = settings.API_ENDPOINT
 SPOONTACULAR_API_KEY = settings.SPOONTACULAR_API_KEY
@@ -52,58 +52,53 @@ def get_translation(text):
 
 
 def get_recipes(include, exclude, count, query):
-    """Builds Recipe and MissingIngredient objects based on a query and builds relationships with SearchQuery object"""
+    """Builds Recipe objects based on a query and builds relationships with SearchQuery object"""
 
     #Retrieves recipes data matching user's query from Spoontacular API
     recipes_data = get_spoontacular_data(include, exclude, count)
     recipes_dict = recipes_data["results"]
 
-    #Iterates through recipes dict to build Recipe and MissingIngredient objects
+    #Iterates through recipes dict to build Recipe objects
     for recipe in recipes_dict:
         title = recipe["title"]
         title_pt = get_translation(title)
         picture = recipe["image"]
         ingredients = [ingredient["name"] for ingredient in recipe["nutrition"]["ingredients"]]
         ingredients_pt = [get_translation(ingredient["name"]) for ingredient in recipe["nutrition"]["ingredients"]]
-        missing_ingredient_count = recipe["missedIngredientCount"]
+        missing_ingredients_count = recipe["missedIngredientCount"]
         carbs = recipe["nutrition"]["caloricBreakdown"]["percentCarbs"]
         proteins = recipe["nutrition"]["caloricBreakdown"]["percentProtein"]
         fats = recipe["nutrition"]["caloricBreakdown"]["percentFat"]
         calories = recipe["nutrition"]["nutrients"][0]["amount"]
         source_url = recipe["sourceUrl"]
+        
 
         #tries to find recipe in database and add it to query object. If not found in DB, it creates it and add it to query.
-        try:
-            recipe_obj = Recipe.objects.get(source_url=source_url)
-            query.recipes.add(recipe_obj)
-        except Recipe.DoesNotExist:
-            recipe_obj = Recipe(
-                title=title,
-                title_pt=title_pt,
-                picture_url=picture,
-                ingredients=ingredients,
-                ingredients_pt=ingredients_pt,
-                carbs=carbs,
-                proteins=proteins,
-                fats=fats,
-                calories=calories,
-                source_url=source_url
-                )
-            recipe_obj.save()
-            query.recipes.add(recipe_obj)
 
-        #builds MissingIngredient object
-        missing_count = MissingIngredient(missing_ingredient_count=missing_ingredient_count, recipe=recipe_obj, search_query=query)
-        missing_count.save()
+        recipe_obj = Recipe(
+            title=title,
+            title_pt=title_pt,
+            picture_url=picture,
+            ingredients=ingredients,
+            ingredients_pt=ingredients_pt,
+            carbs=carbs,
+            proteins=proteins,
+            fats=fats,
+            calories=calories,
+            source_url=source_url,
+            missing_ingredients_count = missing_ingredients_count
+            )
+        recipe_obj.save()
+        query.recipes.add(recipe_obj)
 
     return None
+
 
 def get_search_query(include, exclude, count):
     """This function searches the database for a search query. 
     If the related SearchQuery object exists in the db, it returns it. 
-    If it doesn't, it creates the SearchQuery object, it fetches data from spoontacular API, builds the recipe objects 
-    and missing count objects and builds the relationships
-    and then returns the SearchQuery object"""
+    If it doesn't, it creates the SearchQuery object, it fetches data from spoontacular API, 
+    builds the recipe objects and the relationships and then returns the SearchQuery object"""
 
     search_expression = f"include:{include}|exclude:{exclude}|count:{count}"
 
@@ -139,13 +134,12 @@ def search_recipes_view(request):
     recipes_number = query_dict["recipes_number"]
 
     query_object = get_search_query(include=ingredients_to_include, exclude=ingredients_to_exclude, count=recipes_number)
-    
-    missing_ingredient_objects = MissingIngredient.objects.filter(search_query=query_object)
 
+    recipes = query_object.recipes.all()
 
     #Renders page    
     context = {
-        "recipes": missing_ingredient_objects,
+        "recipes": recipes,
     }
     
     return render(request, "recipes/recipes_list.html", context=context)

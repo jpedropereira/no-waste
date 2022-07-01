@@ -19,14 +19,14 @@
     </tr>
     {% for recipe in recipes %}
     <tr>
-        <td><a href="{{recipe.recipe.sourceurl}}">{{recipe.recipe.title}}</a> </td>
-        <td><img src="{{recipe.recipe.picture_url}}" alt="{{recipe.recipe.title}}"></td>
-        <td>{{recipe.recipe.ingredients}}</td>
-        <td>{{recipe.missing_ingredient_count}}</td>
-        <td>{{recipe.recipe.carbs}}</td>
-        <td>{{recipe.recipe.proteins}}</td>
-        <td>{{recipe.recipe.fats}}</td>
-        <td>{{recipe.recipe.calories}}</td>
+        <td><a href="{{recipe.sourceurl}}">{{recipe.title}}</a> </td>
+        <td><img src="{{recipe.picture_url}}" alt="{{recipe.title}}"></td>
+        <td>{{recipe.ingredients}}</td>
+        <td>{{recipe.missing_ingredients_count}}</td>
+        <td>{{recipe.carbs}}</td>
+        <td>{{recipe.proteins}}</td>
+        <td>{{recipe.fats}}</td>
+        <td>{{recipe.calories}}</td>
     </tr>
 
     {% endfor %}
@@ -48,37 +48,18 @@
     </tr>
     {% for recipe in recipes %}
     <tr>
-        <td><a href="{{recipe.recipe.sourceurl}}">{{recipe.recipe.title_pt}}</a></td>
-        <td><img src="{{recipe.recipe.picture_url}}" alt="{{recipe.recipe.title_pt}}"></td>
-        <td>{{recipe.recipe.ingredients_pt}}</td>
-        <td>{{recipe.missing_ingredient_count}}</td>
-        <td>{{recipe.recipe.carbs}}</td>
-        <td>{{recipe.recipe.proteins}}</td>
-        <td>{{recipe.recipe.fats}}</td>
-        <td>{{recipe.recipe.calories}}</td>
+        <td><a href="{{recipe.sourceurl}}">{{recipe.title_pt}}</a></td>
+        <td><img src="{{recipe.picture_url}}" alt="{{recipe.title_pt}}"></td>
+        <td>{{recipe.ingredients_pt}}</td>
+        <td>{{recipe.missing_ingredients_count}}</td>
+        <td>{{recipe.carbs}}</td>
+        <td>{{recipe.proteins}}</td>
+        <td>{{recipe.fats}}</td>
+        <td>{{recipe.calories}}</td>
     </tr>
 
     {% endfor %}
 
 </table>
 
-
-
-
-
-
-<!--    <h1>Your Recipes!</h1>
-    <ul>
-        {% for recipe in recipes_en  %}
-           <li> <a href="{{ recipe.sourceUrl }}"> {{ recipe.title }} </a> </li>
-        {% endfor %}
-    </ul>
-    <br>
-    <br>
-    <h1>As suas receitas!</h1>
-    <ul>
-        {% for key, value in recipes_pt.items  %}
-            <li><a href="{{value}}"> {{ key }} </a></li>
-        {% endfor %}
-    </ul>          -->
 {% endblock content %}

@@ -1,11 +1,11 @@
 from django.contrib import admin
 
 
-from recipes.models import Recipe, SearchQuery, MissingIngredient
+from recipes.models import Recipe, SearchQuery
 
 # Register your models here.
 
 admin.site.register(Recipe)
 admin.site.register(SearchQuery)
-admin.site.register(MissingIngredient)
+
 
