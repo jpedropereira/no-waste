@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 
-from recipes.models import Recipe, SearchQuery
+from no_waste.recipes.models import Recipe, SearchQuery
 
 # Register your models here.
 
