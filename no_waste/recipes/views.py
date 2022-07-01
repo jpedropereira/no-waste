@@ -6,8 +6,8 @@ from django.conf import settings
 from pygoogletranslation import Translator
 
 
-from recipes.forms import GetRecipesForm
-from recipes.models import Recipe, SearchQuery
+from no_waste.recipes.forms import GetRecipesForm
+from no_waste.recipes.models import Recipe, SearchQuery
 
 API_ENDPOINT = settings.API_ENDPOINT
 SPOONTACULAR_API_KEY = settings.SPOONTACULAR_API_KEY
