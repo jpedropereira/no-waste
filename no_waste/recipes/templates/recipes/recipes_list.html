@@ -19,7 +19,7 @@
     </tr>
     {% for recipe in recipes %}
     <tr>
-        <td><a href="{{recipe.sourceurl}}">{{recipe.title}}</a> </td>
+        <td><a href="{{recipe.source_url}}">{{recipe.title}}</a> </td>
         <td><img src="{{recipe.picture_url}}" alt="{{recipe.title}}"></td>
         <td>{{recipe.ingredients}}</td>
         <td>{{recipe.missing_ingredients_count}}</td>
@@ -48,7 +48,7 @@
     </tr>
     {% for recipe in recipes %}
     <tr>
-        <td><a href="{{recipe.sourceurl}}">{{recipe.title_pt}}</a></td>
+        <td><a href="{{recipe.source_url}}">{{recipe.title_pt}}</a></td>
         <td><img src="{{recipe.picture_url}}" alt="{{recipe.title_pt}}"></td>
         <td>{{recipe.ingredients_pt}}</td>
         <td>{{recipe.missing_ingredients_count}}</td>
