@@ -1,5 +1,3 @@
-import requests
-
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.conf import settings
@@ -8,9 +6,10 @@ from pygoogletranslation import Translator
 
 from no_waste.recipes.forms import GetRecipesForm
 from no_waste.recipes.models import Recipe, SearchQuery
+from no_waste.recipes.spoonacular_gateway import SpoonacularGateway
 
 API_ENDPOINT = settings.API_ENDPOINT
-SPOONTACULAR_API_KEY = settings.SPOONTACULAR_API_KEY
+SPOONACULAR_API_KEY = settings.SPOONTACULAR_API_KEY
 
 #Create your views here.
 
@@ -24,24 +23,6 @@ class GetRecipesView(FormView):
         return super().form_valid(form)
 
 
-def get_spoontacular_data(include, exclude, number):
-    """This function is used to collect recipe data from Spoontacular API"""
-    
-    recipe_config = {
-        "apiKey": SPOONTACULAR_API_KEY,
-        "includeIngredients": include,
-        "excludeIngredients": exclude,
-        "instructionsRequired": True,
-        "addRecipeNutrition": True,
-        "sort": "min-missing-ingredients",
-        "number": number,
-        }
-
-    response = requests.get(url=API_ENDPOINT, params=recipe_config)
-    response.raise_for_status()
-    recipes = response.json()
-
-    return recipes
 
 def get_translation(text):
     """This method translates English to Portuguese"""
@@ -55,7 +36,7 @@ def get_recipes(include, exclude, count, query):
     """Builds Recipe objects based on a query and builds relationships with SearchQuery object"""
 
     #Retrieves recipes data matching user's query from Spoontacular API
-    recipes_data = get_spoontacular_data(include, exclude, count)
+    recipes_data = SpoonacularGateway.get_recipes(include, exclude, count)
     recipes_dict = recipes_data["results"]
 
     #Iterates through recipes dict to build Recipe objects

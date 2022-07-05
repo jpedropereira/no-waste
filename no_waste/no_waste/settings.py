@@ -133,5 +133,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Spoontacular settings
-SPOONTACULAR_API_KEY = os.getenv("SPOONTACULAR_API_KEY")
-API_ENDPOINT = "https://api.spoonacular.com/recipes/complexSearch"
+SPOONACULAR_API_KEY = os.getenv("SPOONACULAR_API_KEY")
+API_ENDPOINT = "https://api.spoonacular.com"
