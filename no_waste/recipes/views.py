@@ -4,12 +4,12 @@ from django.conf import settings
 from pygoogletranslation import Translator
 
 
-from no_waste.recipes.forms import GetRecipesForm
-from no_waste.recipes.models import Recipe, SearchQuery
-from no_waste.recipes.spoonacular_gateway import SpoonacularGateway
+from recipes.forms import GetRecipesForm
+from recipes.models import Recipe, SearchQuery
+from recipes.spoonacular_gateway import SpoonacularGateway
 
 API_ENDPOINT = settings.API_ENDPOINT
-SPOONACULAR_API_KEY = settings.SPOONTACULAR_API_KEY
+SPOONACULAR_API_KEY = settings.SPOONACULAR_API_KEY
 
 #Create your views here.
 
