@@ -27,7 +27,7 @@ class GetRecipesView(FormView):
 class SearchRecipesView(View):
     """This class view renders a list with the recipes resulting from the user query"""
 
-    def get_recipes(self, include, exclude, count, query):
+    def save_recipes(self, include, exclude, count, query):
         """Builds Recipe objects based on a query and builds relationships with SearchQuery object"""
 
         # Retrieves recipes data matching user's query from Spoontacular API
@@ -85,7 +85,7 @@ class SearchRecipesView(View):
             search = SearchQuery(search_query=search_expression)
             search.save()
 
-            self.get_recipes(include, exclude, count, search)
+            self.save_recipes(include, exclude, count, search)
 
         return search
 
