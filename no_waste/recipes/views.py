@@ -88,7 +88,7 @@ class SearchRecipesView(View):
             search = SearchQuery.objects.get(search_query=search_expression)
 
         except SearchQuery.DoesNotExist:
-            # builds query object
+            # builds query object if it doesn't exist
             search = SearchQuery(search_query=search_expression)
             search.save()
 

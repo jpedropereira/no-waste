@@ -4,8 +4,8 @@ from django.conf import settings
 
 class SpoonacularGateway:
 
-    @classmethod
-    def get_recipes(cls, include, exclude, number):
+    @staticmethod
+    def get_recipes(include, exclude, number):
         """This function is used to collect recipe data from Spoontacular API"""
         recipes_endpoint = "/recipes/complexSearch"
 
