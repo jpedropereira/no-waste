@@ -2,11 +2,11 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.views.generic.edit import FormView
 from django.conf import settings
-from pygoogletranslation import Translator
 
 from recipes.forms import GetRecipesForm
 from recipes.models import Recipe, SearchQuery
 from recipes.spoonacular_gateway import SpoonacularGateway
+from recipes.utils import get_translation
 
 API_ENDPOINT = settings.API_ENDPOINT
 SPOONACULAR_API_KEY = settings.SPOONACULAR_API_KEY
@@ -27,13 +27,6 @@ class GetRecipesView(FormView):
 class SearchRecipesView(View):
     """This class view renders a list with the recipes resulting from the user query"""
 
-    def get_translation(self, text):
-        """This method translates English to Portuguese"""
-        translator = Translator()
-        translation = translator.translate(text=text, src="en", dest="pt").text
-
-        return translation
-
     def get_recipes(self, include, exclude, count, query):
         """Builds Recipe objects based on a query and builds relationships with SearchQuery object"""
 
@@ -44,10 +37,10 @@ class SearchRecipesView(View):
         # Iterates through recipes dict to build Recipe objects
         for recipe in recipes_dict:
             title = recipe["title"]
-            title_pt = self.get_translation(title)
+            title_pt = get_translation(title)
             picture = recipe["image"]
             ingredients = [ingredient["name"] for ingredient in recipe["nutrition"]["ingredients"]]
-            ingredients_pt = [self.get_translation(ingredient["name"]) for ingredient in recipe["nutrition"]["ingredients"]]
+            ingredients_pt = [get_translation(ingredient["name"]) for ingredient in recipe["nutrition"]["ingredients"]]
             missing_ingredients_count = recipe["missedIngredientCount"]
             carbs = recipe["nutrition"]["caloricBreakdown"]["percentCarbs"]
             proteins = recipe["nutrition"]["caloricBreakdown"]["percentProtein"]
