@@ -19,9 +19,9 @@
     </tr>
     {% for recipe in recipes %}
     <tr>
-        <td><a href="{{recipe.sourceurl}}">{{recipe.title_en}}</a> </td>
-        <td><img src="{{recipe.picture}}" alt="{{recipe.title_en}}"></td>
-        <td>{{recipe.ingredients_en}}</td>
+        <td><a href="{{recipe.source_url}}">{{recipe.title}}</a> </td>
+        <td><img src="{{recipe.picture_url}}" alt="{{recipe.title}}"></td>
+        <td>{{recipe.ingredients}}</td>
         <td>{{recipe.missing_ingredients_count}}</td>
         <td>{{recipe.carbs}}</td>
         <td>{{recipe.proteins}}</td>
@@ -48,8 +48,8 @@
     </tr>
     {% for recipe in recipes %}
     <tr>
-        <td><a href="{{recipe.sourceurl}}">{{recipe.title_pt}}</a></td>
-        <td><img src="{{recipe.picture}}" alt="{{recipe.title_pt}}"></td>
+        <td><a href="{{recipe.source_url}}">{{recipe.title_pt}}</a></td>
+        <td><img src="{{recipe.picture_url}}" alt="{{recipe.title_pt}}"></td>
         <td>{{recipe.ingredients_pt}}</td>
         <td>{{recipe.missing_ingredients_count}}</td>
         <td>{{recipe.carbs}}</td>
@@ -62,23 +62,4 @@
 
 </table>
 
-
-
-
-
-
-<!--    <h1>Your Recipes!</h1>
-    <ul>
-        {% for recipe in recipes_en  %}
-           <li> <a href="{{ recipe.sourceUrl }}"> {{ recipe.title }} </a> </li>
-        {% endfor %}
-    </ul>
-    <br>
-    <br>
-    <h1>As suas receitas!</h1>
-    <ul>
-        {% for key, value in recipes_pt.items  %}
-            <li><a href="{{value}}"> {{ key }} </a></li>
-        {% endfor %}
-    </ul>          -->
 {% endblock content %}

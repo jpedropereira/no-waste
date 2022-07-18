@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'no_waste.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv("POSTGRESQL_DB_NAME"),
+        'USER': os.getenv("POSTGRESQL_USER"),
+        'PASSWORD': os.getenv("POSTGRESQL_PASS"),
+        'HOST': os.getenv("POSTGRESQL_HOST"),
+        'PORT': os.getenv("POSTGRESQL_PORT"),
     }
 }
 
@@ -128,6 +132,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Spoontacular settings
-SPOONTACULAR_API_KEY = os.getenv("SPOONTACULAR_API_KEY")
-API_ENDPOINT = "https://api.spoonacular.com/recipes/complexSearch"
+# Spoonacular settings
+SPOONACULAR_API_KEY = os.getenv("SPOONACULAR_API_KEY")
+API_ENDPOINT = "https://api.spoonacular.com"

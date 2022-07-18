@@ -1,5 +1,6 @@
 from django import forms
 
+
 class GetRecipesForm(forms.Form):
     ingredients_to_include = forms.CharField(
         max_length=200,
