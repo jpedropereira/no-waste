@@ -8,9 +8,6 @@ from recipes.models import Recipe, SearchQuery
 from recipes.spoonacular_gateway import SpoonacularGateway
 from recipes.utils import get_translation
 
-API_ENDPOINT = settings.API_ENDPOINT
-SPOONACULAR_API_KEY = settings.SPOONACULAR_API_KEY
-
 
 # Create your views here.
 
